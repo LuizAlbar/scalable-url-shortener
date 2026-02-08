@@ -1,0 +1,45 @@
+name: Deploy Frontend
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - "frontend/**"
+
+    workflow_dispatch:
+
+jobs:
+    frontend-deploy:
+        name: Cloudflare Deploy
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Frontend Repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v4
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: pnpm
+                  cache-dependency-path: pnpm-lock.yaml
+
+            - name: Install Dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build Project
+              run: pnpm build
+
+            - name: Deploy to Cloudflare Workers
+              uses: cloudflare/wrangler-action@v3
+              env:
+                  BUILD_API_KEY: ${{secrets.BUILD_API_KEY}}
+              with:
+                  apiToken: ${{secrets.CLOUDFLARE_API_TOKEN}}
+                  command: deploy
