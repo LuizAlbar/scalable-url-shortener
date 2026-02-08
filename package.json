@@ -1,0 +1,16 @@
+{
+	"name": "scalable-url-shortner",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"format": "biome format --write ."
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.18.1",
+	"devDependencies": {
+		"@biomejs/biome": "2.3.14"
+	}
+}
