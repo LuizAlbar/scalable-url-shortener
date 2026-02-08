@@ -90,26 +90,33 @@ const Shorten = () => {
 						</button>
 					</form>
 				</div>
+
 				{/* Shorten Output */}
-
-				<div className="shorten__cards">
-					{/* Shorten Card */}
-					<div className="shorten__card">
-						<div className="actual-link">
-							<span>https://google.com</span>
-						</div>
-						<hr className="line" />
-
-						<div className="shorten__link">
-							<a href="#region" target="_blank" rel="noopener">
-								https://shortly/ak4sa
-							</a>
-							<button className="btn" datatype="wide" type="button">
-								Copy
-							</button>
-						</div>
+				{shortenedUrls.length > 0 && (
+					<div className="shorten__cards">
+						{/* Shorten Card */}
+						{shortenedUrls.map((item, index) => (
+							<div key={`${item.shortUrl}-${index}`} className="shorten__card">
+								<div className="actual-link">
+									<span className={item.originalUrl}></span>
+								</div>
+								<hr className="line" />
+								<div className="shorten__link">
+									<a href={item.shortUrl} target="_blank" rel="noreferrer">
+										{item.shortUrl}
+									</a>
+									<button
+										type="button"
+										className={`btn ${copiedIndex === index ? "copied" : ""}`}
+										onClick={() => handleCopy(item.shortUrl, index)}
+									>
+										{copiedIndex === index ? "Copied" : "Copy"}
+									</button>
+								</div>
+							</div>
+						))}
 					</div>
-				</div>
+				)}
 			</div>
 		</section>
 	);

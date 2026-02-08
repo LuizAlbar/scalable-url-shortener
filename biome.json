@@ -17,7 +17,8 @@
 		"rules": {
 			"recommended": true,
 			"suspicious": {
-				"noExplicitAny": "info"
+				"noExplicitAny": "info",
+				"noAssignInExpressions": "off"
 			},
 			"a11y": {
 				"noStaticElementInteractions": "off",
