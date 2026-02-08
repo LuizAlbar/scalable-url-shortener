@@ -15,7 +15,15 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "info",
+				"noAssignInExpressions": "off"
+			},
+			"a11y": {
+				"noStaticElementInteractions": "off",
+				"useKeyWithClickEvents": "off"
+			}
 		}
 	},
 	"javascript": {
@@ -29,6 +37,24 @@
 			"source": {
 				"organizeImports": "on"
 			}
+		}
+	},
+	"html": {
+		"formatter": {
+			"enabled": true,
+			"indentScriptAndStyle": true,
+			"bracketSameLine": true,
+			"indentStyle": "tab"
+		},
+		"linter": {
+			"enabled": true
+		},
+		"assist": {
+			"enabled": true
+		},
+		"experimentalFullSupportEnabled": true,
+		"parser": {
+			"interpolation": true
 		}
 	}
 }
