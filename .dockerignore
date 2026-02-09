@@ -1,0 +1,31 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies
+node_modules
+
+# Build outputs
+*.tgz
+
+# Environment files and secrets
+.env
+.aws
+.npmrc
+npm-debug.log*
+
+# IDE/OS files
+.vscode
+.DS_Store
+Thumbs.db
+
+# Testing/Coverage
+coverage
+*.log
+.eslintcache
+
+# Custom
+
+.vscode
+.github
+frontend
