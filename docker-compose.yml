@@ -1,17 +1,31 @@
 services:
-  nginx:
+  load-balancer:
     build:
       context: ./nginx
-    container_name: nginx
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/app/etc/nginx/nginx.conf:rw
+      - ./nginx/sites-enabled/load-balancer.conf:/app/etc/nginx/sites-enabled/load-balancer.conf:rw
+    networks:
+      - url-shortener-network
 
   api:
     build:
       context: .
-    container_name: api
+    deploy:
+      mode: replicated
+      replicas: 3
+    restart: unless-stopped
+    networks:
+      - url-shortener-network
 
   redis:
     image: redis:7-alpine
     container_name: redis
+    networks:
+      - url-shortener-network
 
   cassandra:
     image: cassandra:latest
@@ -25,4 +39,12 @@ services:
       - CASSANDRA_DC=datacenter1
       - CASSANDRA_ENDPOINT_SNITCH=SimpleSnitch
       - CASSANDRA_NUM_TOKENS=128
+    networks:
+      - url-shortener-network
 
+networks:
+  url-shortener-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.3.0.0/26
