@@ -16,6 +16,7 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"style": { "useImportType": "off" },
 			"suspicious": {
 				"noExplicitAny": "info",
 				"noAssignInExpressions": "off"
@@ -29,6 +30,9 @@
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
+		},
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
 		}
 	},
 	"assist": {
