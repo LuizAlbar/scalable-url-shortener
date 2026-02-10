@@ -24,6 +24,13 @@ services:
   redis:
     image: redis:7-alpine
     container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
     networks:
       - url-shortener-network
 
@@ -47,6 +54,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    volumes:
+      - cassandra_data1:/var/lib/cassandra
     networks:
       - url-shortener-network
 
@@ -62,6 +71,8 @@ services:
       cassandra1:
         condition: service_healthy
     mem_limit: 1g
+    volumes:
+      - cassandra_data2:/var/lib/cassandra
     networks:
       - url-shortener-network
 
@@ -71,3 +82,11 @@ networks:
     ipam:
       config:
         - subnet: 10.3.0.0/26
+
+volumes:
+  redis_data:
+    driver: local
+  cassandra_data1:
+    driver: local
+  cassandra_data2:
+    driver: local
