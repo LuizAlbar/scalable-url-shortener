@@ -21,4 +21,16 @@ export class UrlShortenerService {
 			throw error;
 		}
 	}
+
+	async getLongUrl(shortId: string) {
+		try {
+			const result = await this.urlModel.findOneAsync({
+				short_id: shortId,
+			});
+			return result.long_url;
+		} catch (error) {
+			console.error("Couldn't fetch long url:", error);
+			throw error;
+		}
+	}
 }
