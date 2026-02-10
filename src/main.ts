@@ -10,8 +10,8 @@ async function bootstrap() {
 		AppModule,
 		new FastifyAdapter(),
 	);
+	app.setGlobalPrefix("api/v1");
 	await app.listen(3000, "0.0.0.0");
 }
-
 
 bootstrap();
