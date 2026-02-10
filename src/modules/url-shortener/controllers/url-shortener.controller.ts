@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	HttpCode,
+	Param,
+	Post,
+	Redirect,
+} from "@nestjs/common";
 import { CreateUrlDTO } from "../dtos/create-url.dto";
 import { UrlShortenerService } from "../services/url-shortener.service";
 
@@ -10,5 +18,13 @@ export class UrlController {
 	@HttpCode(201)
 	async shortenUrl(@Body() createUrlDto: CreateUrlDTO) {
 		return this.urlService.shortenUrl(createUrlDto.longUrl);
+	}
+
+	@Get(":shortId")
+	@Redirect()
+	async getLongUrl(@Param("shortId") shortId: string) {
+		const logUrl = await this.urlService.getLongUrl(shortId);
+
+		return { url: logUrl, statusCode: 302 };
 	}
 }
