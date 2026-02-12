@@ -29,3 +29,6 @@ dist/
 build/
 README.md
 sample.md
+
+.env.prod
+.env.dev
