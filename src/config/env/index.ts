@@ -9,21 +9,18 @@ const envSchema = z.object({
 	REDIS_URL: z.string(),
 });
 
-let _env: any;
+const nodeEnv = process.env.NODE_ENV || "dev";
 
-if (process.env.NODE_ENV === "dev") {
-	_env = envSchema.safeParse(config({ path: ".env.dev" }));
-} else if (process.env.NODE_ENV === "prod") {
-	_env = envSchema.safeParse(config({ path: ".env.prod" }));
-}
+const envPath = nodeEnv === "prod" ? ".env.prod" : ".env.dev";
 
-if (_env.success === false) {
-	console.error(
-		"❌ Invalid environment variables: ",
-		z.treeifyError(_env.error),
-	);
+const { error, data } = envSchema.safeParse(
+	config({ path: envPath, override: true, encoding: "utf-8" }).parsed,
+);
+
+if (error) {
+	console.error("❌ Invalid environment variables: ", z.treeifyError(error));
 
 	throw new Error("Invalid environment variables");
 }
 
-export const env = _env.data;
+export const env = data;
