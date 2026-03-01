@@ -1,6 +1,7 @@
 import { Module, type OnModuleInit } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
+import { MailService } from "src/common/mail-service";
 import { env } from "src/config/env";
 import { AuthController } from "./controllers/auth.controller";
 import { AccountModel } from "./models/auth.model";
@@ -17,7 +18,7 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
 		PassportModule.register({ session: false }),
 	],
 	controllers: [AuthController],
-	providers: [AuthService, JwtStrategy, AuthGoogleStrategy],
+	providers: [AuthService, JwtStrategy, AuthGoogleStrategy, MailService],
 })
 export class AuthModule implements OnModuleInit {
 	async onModuleInit() {
