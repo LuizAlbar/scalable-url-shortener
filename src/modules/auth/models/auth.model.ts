@@ -5,6 +5,8 @@ export const AccountModel = models.loadSchema("Account", {
 		id: { type: "text", key: "partitioned" },
 		email: { type: "text" },
 		password: { type: "text" },
+		reset_token: { type: "text" },
+		reset_token_expires: { type: "timestamp" },
 		created_at: {
 			type: "timestamp",
 			default: { $db_function: "toTimestamp(now())" },
