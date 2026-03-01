@@ -13,6 +13,8 @@ const envSchema = z.object({
 	MAIL_PORT: z.coerce.number(),
 	MAIL_USER: z.string(),
 	MAIL_PASS: z.string(),
+	STRIPE_SECRET_KEY: z.string(),
+	STRIPE_WEBHOOK_SECRET: z.string(),
 });
 
 const nodeEnv = process.env.NODE_ENV || "dev";

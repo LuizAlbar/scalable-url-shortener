@@ -1,18 +1,25 @@
 import fastifyCookie from "@fastify/cookie";
-import fastifyMiddie from "@fastify/middie";
 import { NestFactory } from "@nestjs/core";
 import {
 	FastifyAdapter,
 	type NestFastifyApplication,
 } from "@nestjs/platform-fastify";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import fastifyRawBody from "fastify-raw-body";
 import { AppModule } from "./app.module";
 import { env } from "./config/env";
 
 async function bootstrap() {
+	const adapter = new FastifyAdapter();
+	await adapter.register(fastifyRawBody as any, {
+		field: "rawBody",
+		encoding: null,
+		globals: false,
+		routes: ["/api/v1/billing/webhook"],
+	});
 	const app = await NestFactory.create<NestFastifyApplication>(
 		AppModule,
-		new FastifyAdapter(),
+		adapter,
 	);
 	app
 		.getHttpAdapter()
@@ -27,7 +34,7 @@ async function bootstrap() {
 				};
 			}
 
-			if (!reply.end) {	
+			if (!reply.end) {
 				reply.end = (payload: any) => {
 					reply.send(payload);
 				};
