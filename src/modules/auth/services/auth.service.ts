@@ -55,4 +55,27 @@ export class AuthService {
 			throw error;
 		}
 	}
+
+	async loginWithGoogle(email: string) {
+		try {
+			let account = await this.authModel.findOneAsync({
+				email: email,
+			});
+
+			if (!account) {
+				account = new this.authModel({
+					id: uuidv7(),
+					email: email,
+					password: null,
+				});
+				await account.saveAsync();
+			}
+
+			const payload: AuthJwtDTO = { sub: account.id, email: account.email };
+
+			return {
+				access_token: await this.jwtService.signAsync(payload),
+			};
+		} catch {}
+	}
 }
