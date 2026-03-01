@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { hashPasswordService } from "src/common/hash-password-service";
 import { models } from "src/config/database/cassandra/cassandra.client";
+import { uuidv7 } from "uuidv7";
 import { AuthJwtDTO } from "../dtos/auth-dto";
 
 @Injectable()
@@ -10,11 +11,12 @@ export class AuthService {
 	constructor(private jwtService: JwtService) {}
 
 	async register(email: string, password: string) {
-		const hashedPassword = hashPasswordService.hashPassword(password);
+		const hashedPassword = await hashPasswordService.hashPassword(password);
 
 		const newAccount = new this.authModel({
-			email,
-			hashedPassword,
+			id: uuidv7(),
+			email: email,
+			password: hashedPassword,
 		});
 
 		try {
@@ -31,10 +33,13 @@ export class AuthService {
 			const account = await this.authModel.findOneAsync({
 				email: email,
 			});
+			if (!account) {
+				throw Error("Account not found");
+			}
 
 			const isPasswordValid = await hashPasswordService.comparePassword(
 				password,
-				account.hashedPassword,
+				account.password,
 			);
 
 			if (!isPasswordValid) {
