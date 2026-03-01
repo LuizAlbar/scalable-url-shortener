@@ -29,3 +29,47 @@ export interface AuthJwtDTO {
 	email: string;
 	sub: string;
 }
+
+export class ForgotPasswordDTO {
+	constructor(email: string) {
+		this.email = email;
+	}
+
+	@IsEmail()
+	@IsNotEmpty()
+	@ApiProperty({
+		description: "The email of the user",
+		example: "johndoe@example.com",
+	})
+	email: string;
+}
+
+export class ResetPasswordDTO {
+	constructor(email: string, token: string, newPassword: string) {
+		this.email = email;
+		this.token = token;
+		this.newPassword = newPassword;
+	}
+	@IsEmail()
+	@IsNotEmpty()
+	@ApiProperty({
+		description: "The email of the user",
+		example: "johndoe@example.com",
+	})
+	email: string;
+
+	@IsNotEmpty()
+	@ApiProperty({
+		description: "The reset token",
+		example: "aeiou12345",
+	})
+	token: string;
+
+	@IsStrongPassword({ minLength: 8 })
+	@IsNotEmpty()
+	@ApiProperty({
+		description: "The new password",
+		example: "NewPassword123!",
+	})
+	newPassword: string;
+}
