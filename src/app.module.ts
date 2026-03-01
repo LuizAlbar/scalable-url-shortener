@@ -5,12 +5,14 @@ import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { env } from "./config/env";
 import { AuthModule } from "./modules/auth/auth.module";
+import { BillingModule } from "./modules/billing/billing.module";
 import { UrlShortenerModule } from "./modules/url-shortener/url-shortener.module";
 
 @Module({
 	imports: [
 		UrlShortenerModule,
 		AuthModule,
+		BillingModule,
 		ConfigModule.forRoot({
 			isGlobal: true,
 		}),
