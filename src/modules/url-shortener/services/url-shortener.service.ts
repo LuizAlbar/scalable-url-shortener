@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { generateIdHelper } from "src/common/generate-id";
 import { models } from "src/config/database/cassandra/cassandra.client";
+import { redis } from "src/config/database/redis/redis.client";
 
 @Injectable()
 export class UrlShortenerService {
@@ -24,10 +25,23 @@ export class UrlShortenerService {
 
 	async getLongUrl(shortId: string) {
 		try {
+			const cachedUrl = await redis.get(shortId);
+
+			if (cachedUrl) {
+				await redis.expire(shortId, 120);
+				return cachedUrl;
+			}
+
 			const result = await this.urlModel.findOneAsync({
 				short_id: shortId,
 			});
-			return result.long_url;
+
+			if (result) {
+				await redis.setex(shortId, 600, result.long_url);
+				return result.long_url;
+			}
+
+			return null;
 		} catch (error) {
 			console.error("Couldn't fetch long url:", error);
 			throw error;
