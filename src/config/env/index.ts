@@ -7,6 +7,8 @@ const envSchema = z.object({
 	PORT: z.coerce.number().default(3000),
 	CASSANDRA_URL: z.string(),
 	REDIS_URL: z.string(),
+	GOOGLE_CLIENT_ID: z.string(),
+	GOOGLE_CLIENT_SECRET: z.string(),
 });
 
 const nodeEnv = process.env.NODE_ENV || "dev";
