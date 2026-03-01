@@ -1,4 +1,5 @@
 import fastifyCookie from "@fastify/cookie";
+import fastifyMiddie from "@fastify/middie";
 import { NestFactory } from "@nestjs/core";
 import {
 	FastifyAdapter,
@@ -13,6 +14,27 @@ async function bootstrap() {
 		AppModule,
 		new FastifyAdapter(),
 	);
+	app
+		.getHttpAdapter()
+		.getInstance()
+		.addHook("onRequest", (req, res, next) => {
+			const reply = res as any;
+
+			if (!reply.setHeader) {
+				reply.setHeader = (name: string, value: any) => {
+					reply.header(name, value);
+					return reply;
+				};
+			}
+
+			if (!reply.end) {	
+				reply.end = (payload: any) => {
+					reply.send(payload);
+				};
+			}
+
+			next();
+		});
 	app.setGlobalPrefix("api/v1");
 
 	await app.register(fastifyCookie, {
