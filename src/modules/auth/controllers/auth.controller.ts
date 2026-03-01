@@ -9,7 +9,12 @@ import {
 	UseGuards,
 } from "@nestjs/common";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { LoginAuthDTO, RegisterAuthDTO } from "../dtos/auth-dto";
+import {
+	ForgotPasswordDTO,
+	LoginAuthDTO,
+	RegisterAuthDTO,
+	ResetPasswordDTO,
+} from "../dtos/auth-dto";
 import { AuthGoogleGuard } from "../guards/auth-google.guard";
 import { AuthService } from "../services/auth.service";
 
@@ -74,5 +79,17 @@ export class AuthController {
 		return res
 			.status(302)
 			.redirect("https://d1266527.scalable-url-shortener.pages.dev/");
+	}
+
+	@Post("forgot-password")
+	@HttpCode(200)
+	async forgotPassword(@Body() { email }: ForgotPasswordDTO) {
+		return this.authService.forgotPassword(email);
+	}
+
+	@Post("reset-password")
+	@HttpCode(200)
+	async resetPassword(@Body() { email, token, newPassword }: ResetPasswordDTO) {
+		return this.authService.resetPassword(email, token, newPassword);
 	}
 }
