@@ -65,6 +65,9 @@ importers:
       fastify:
         specifier: ^5.7.4
         version: 5.7.4
+      fastify-raw-body:
+        specifier: ^5.0.0
+        version: 5.0.0
       handlebars:
         specifier: ^4.7.8
         version: 4.7.8
@@ -89,6 +92,9 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      stripe:
+        specifier: ^20.4.0
+        version: 20.4.0(@types/node@25.2.2)
       uuidv7:
         specifier: ^1.1.0
         version: 1.1.0
@@ -2137,6 +2143,10 @@ packages:
   fastify-plugin@5.1.0:
     resolution: {integrity: sha512-FAIDA8eovSt5qcDgcBvDuX/v0Cjz0ohGhENZ/wpc3y+oZCY2afZ9Baqql3g/lC+OHRnciQol4ww7tuthOb9idw==}
 
+  fastify-raw-body@5.0.0:
+    resolution: {integrity: sha512-2qfoaQ3BQDhZ1gtbkKZd6n0kKxJISJGM6u/skD9ljdWItAscjXrtZ1lnjr7PavmXX9j4EyCPmBDiIsLn07d5vA==}
+    engines: {node: '>= 10'}
+
   fastify@5.7.4:
     resolution: {integrity: sha512-e6l5NsRdaEP8rdD8VR0ErJASeyaRbzXYpmkrpr2SuvuMq6Si3lvsaVy5C+7gLanEkvjpMDzBXWE5HPeb/hgTxA==}
 
@@ -3479,6 +3489,9 @@ packages:
     resolution: {integrity: sha512-eflK8wEtyOE6+hsaRVPxvUKYCpRgzLqDTb8krvAsRIwOGlHoSgYLgBXoubGgLd2fT41/OUYdb48v4k4WWHQurA==}
     engines: {node: '>= 10.13.0'}
 
+  secure-json-parse@2.7.0:
+    resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
+
   secure-json-parse@4.1.0:
     resolution: {integrity: sha512-l4KnYfEyqYJxDwlNVyRfO2E4NTHfMKAWdUuA8J0yve2Dz/E/PdBepY03RvyJpssIpRFwJoCD55wA+mEDs6ByWA==}
 
@@ -3685,6 +3698,15 @@ packages:
   strip-json-comments@2.0.1:
     resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
     engines: {node: '>=0.10.0'}
+
+  stripe@20.4.0:
+    resolution: {integrity: sha512-F/aN1IQ9vHmlyLNi3DkiIbyzQb6gyBG0uYFd/VrEVQSc9BLtlgknPUx0EvzZdBMRLFuRaPFIFd7Mxwtg7Pbwzw==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@types/node': '>=16'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
 
   strtok3@10.3.4:
     resolution: {integrity: sha512-KIy5nylvC5le1OdaaoCJ07L+8iQzJHGH6pWDuzS+d07Cu7n1MZ2x26P8ZKIWfbK02+XIL8Mp4RkWeqdUCrDMfg==}
@@ -6133,6 +6155,12 @@ snapshots:
 
   fastify-plugin@5.1.0: {}
 
+  fastify-raw-body@5.0.0:
+    dependencies:
+      fastify-plugin: 5.1.0
+      raw-body: 3.0.2
+      secure-json-parse: 2.7.0
+
   fastify@5.7.4:
     dependencies:
       '@fastify/ajv-compiler': 4.0.5
@@ -7871,6 +7899,8 @@ snapshots:
       ajv-formats: 2.1.1(ajv@8.17.1)
       ajv-keywords: 5.1.0(ajv@8.17.1)
 
+  secure-json-parse@2.7.0: {}
+
   secure-json-parse@4.1.0: {}
 
   seek-bzip@2.0.0:
@@ -8107,6 +8137,10 @@ snapshots:
 
   strip-json-comments@2.0.1:
     optional: true
+
+  stripe@20.4.0(@types/node@25.2.2):
+    optionalDependencies:
+      '@types/node': 25.2.2
 
   strtok3@10.3.4:
     dependencies:
