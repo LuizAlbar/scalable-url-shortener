@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
+const API_URL = import.meta.env.VITE_API_URL || "";
+
 const shortenSchema = z.object({
 	url: z
 		.url("Please enter a valid URL (e.g., https://example.com)")
@@ -33,11 +35,17 @@ const Shorten = () => {
 
 	const onSubmit = async (data: ShortenFormData) => {
 		try {
-			const response = await fetch("/api/v1/shorten", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(data),
-			});
+			const response = await fetch(
+				`${API_URL}/api/v1/shorten-url`,
+				{
+					method: "POST",
+					headers: { 
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
+					},
+					body: JSON.stringify({ longUrl: data.url }),
+				},
+			);
 
 			if (!response.ok) throw new Error("Failed to shorten");
 
