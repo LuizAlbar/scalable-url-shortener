@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import { ExtractJwt, Strategy } from "passport-jwt";
+import { FastifyRequest } from "fastify";
+import { Strategy } from "passport-jwt";
 import { env } from "src/config/env";
 import { AuthJwtDTO } from "../dtos/auth-dto";
 
@@ -8,7 +9,9 @@ import { AuthJwtDTO } from "../dtos/auth-dto";
 export class JwtStrategy extends PassportStrategy(Strategy) {
 	constructor() {
 		super({
-			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			jwtFromRequest: (req: FastifyRequest) => {
+				return req?.cookies?.access_token || null;
+			},
 			ignoreExpiration: false,
 			secretOrKey: env.JWT_SECRET,
 		});
