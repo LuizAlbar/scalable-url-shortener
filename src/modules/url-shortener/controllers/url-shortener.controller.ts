@@ -6,7 +6,9 @@ import {
 	Param,
 	Post,
 	Redirect,
+	UseGuards,
 } from "@nestjs/common";
+import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
 import { CreateUrlDTO } from "../dtos/create-url.dto";
 import { UrlShortenerService } from "../services/url-shortener.service";
 
@@ -14,12 +16,14 @@ import { UrlShortenerService } from "../services/url-shortener.service";
 export class UrlController {
 	constructor(private readonly urlService: UrlShortenerService) {}
 
+	@UseGuards(JwtAuthGuard)
 	@Post()
 	@HttpCode(201)
 	async shortenUrl(@Body() createUrlDto: CreateUrlDTO) {
 		return this.urlService.shortenUrl(createUrlDto.longUrl);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get(":shortId")
 	@Redirect()
 	async getLongUrl(@Param("shortId") shortId: string) {
