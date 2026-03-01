@@ -28,7 +28,7 @@ export class UrlShortenerService {
 			const cachedUrl = await redis.get(shortId);
 
 			if (cachedUrl) {
-				await redis.expire(shortId, 120);
+				await redis.expire(shortId, 900);
 				return cachedUrl;
 			}
 
@@ -37,7 +37,7 @@ export class UrlShortenerService {
 			});
 
 			if (result) {
-				await redis.setex(shortId, 600, result.long_url);
+				await redis.setex(shortId, 900, result.long_url);
 				return result.long_url;
 			}
 
