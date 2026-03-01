@@ -1,8 +1,9 @@
 import * as ExpressCassandra from "express-cassandra";
+import { env } from "src/config/env";
 
 export const models = ExpressCassandra.createClient({
 	clientOptions: {
-		contactPoints: ["127.0.0.1"],
+		contactPoints: [env.CASSANDRA_URL],
 		localDataCenter: "DC1",
 		protocolOptions: {
 			port: 9042,

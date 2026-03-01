@@ -17,17 +17,17 @@ const envSchema = z.object({
 	STRIPE_WEBHOOK_SECRET: z.string(),
 });
 
-const nodeEnv = process.env.NODE_ENV || "dev";
+if (process.env.NODE_ENV !== "prod") {
+	const envPath = process.env.NODE_ENV === "test" ? ".env.test" : ".env.dev";
+	config({ path: envPath });
+} else {
+	config();
+}
 
-const envPath = nodeEnv === "prod" ? ".env.prod" : ".env.dev";
-
-const { error, data } = envSchema.safeParse(
-	config({ path: envPath, override: true, encoding: "utf-8" }).parsed,
-);
+const { error, data } = envSchema.safeParse(process.env);
 
 if (error) {
 	console.error("❌ Invalid environment variables: ", z.treeifyError(error));
-
 	throw new Error("Invalid environment variables");
 }
 

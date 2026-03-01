@@ -18,6 +18,12 @@ services:
       mode: replicated
       replicas: 3
     restart: unless-stopped
+    env_file: .env
+    depends_on:
+      cassandra1:
+        condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - url-shortener-network
 
@@ -73,6 +79,15 @@ services:
     mem_limit: 1g
     volumes:
       - cassandra_data2:/var/lib/cassandra
+    networks:
+      - url-shortener-network
+
+  cloudflare-tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    env_file: .env
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TOKEN}
+
     networks:
       - url-shortener-network
 
