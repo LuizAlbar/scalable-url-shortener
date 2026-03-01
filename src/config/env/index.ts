@@ -9,6 +9,10 @@ const envSchema = z.object({
 	REDIS_URL: z.string(),
 	GOOGLE_CLIENT_ID: z.string(),
 	GOOGLE_CLIENT_SECRET: z.string(),
+	MAIL_HOST: z.string(),
+	MAIL_PORT: z.coerce.number(),
+	MAIL_USER: z.string(),
+	MAIL_PASS: z.string(),
 });
 
 const nodeEnv = process.env.NODE_ENV || "dev";
