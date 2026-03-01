@@ -12,7 +12,7 @@ export class UrlShortenerModule implements OnModuleInit {
 	async onModuleInit() {
 		UrlModel.syncDB((err: any, result: any) => {
 			if (err) throw err;
-			console.log("Schema synchronized: ", result);
+			console.log("Url Schema synchronized: ", result);
 		});
 	}
 }
