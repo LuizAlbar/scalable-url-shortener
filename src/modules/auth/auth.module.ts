@@ -5,6 +5,7 @@ import { env } from "src/config/env";
 import { AuthController } from "./controllers/auth.controller";
 import { AccountModel } from "./models/auth.model";
 import { AuthService } from "./services/auth.service";
+import { AuthGoogleStrategy } from "./strategies/auth-google.strategy";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 
 @Module({
@@ -13,10 +14,10 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
 			secret: env.JWT_SECRET,
 			signOptions: { expiresIn: "15m" },
 		}),
-		PassportModule,
+		PassportModule.register({ session: false }),
 	],
 	controllers: [AuthController],
-	providers: [AuthService, JwtStrategy],
+	providers: [AuthService, JwtStrategy, AuthGoogleStrategy],
 })
 export class AuthModule implements OnModuleInit {
 	async onModuleInit() {
