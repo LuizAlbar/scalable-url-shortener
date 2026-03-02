@@ -10,11 +10,15 @@ import {
 	UseGuards,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
+import { BillingService } from "../services/billing.service";
 import { StripeService } from "../services/stripe.service";
 
 @Controller("billing")
 export class BillingController {
-	constructor(private stripeService: StripeService) {}
+	constructor(
+		private stripeService: StripeService,
+		private billingService: BillingService,
+	) {}
 
 	@Post("checkout")
 	@UseGuards(JwtAuthGuard)
@@ -41,6 +45,12 @@ export class BillingController {
 			if (event.type === "checkout.session.completed") {
 				const session = event.data.object as any;
 				const accountId = session.client_reference_id;
+
+				const customerEmail = event.data.object.customer_email;
+
+				if (customerEmail) {
+					await this.billingService.activeUserPlan(customerEmail);
+				}
 
 				console.log("Payment completed for account:", accountId);
 			}
