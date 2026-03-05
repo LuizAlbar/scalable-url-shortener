@@ -15,7 +15,7 @@ async function bootstrap() {
 		field: "rawBody",
 		encoding: null,
 		globals: false,
-		routes: ["/api/v1/billing/webhook"],
+		routes: ["/billing/webhook"],
 	});
 	const app = await NestFactory.create<NestFastifyApplication>(
 		AppModule,
@@ -42,7 +42,7 @@ async function bootstrap() {
 
 			next();
 		});
-	app.setGlobalPrefix("api/v1");
+	app.enableCors({ origin: true, credentials: true });
 
 	await app.register(fastifyCookie, {
 		secret: env.JWT_SECRET,
@@ -57,9 +57,9 @@ async function bootstrap() {
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config);
-	SwaggerModule.setup("api/docs", app, document);
+	SwaggerModule.setup("/docs", app, document);
 	await app.listen(3000, "0.0.0.0");
-	console.log(`Swagger docs at: http://localhost:3000/api/docs`);
+	console.log(`Swagger docs at: http://localhost:3000/docs`);
 }
 
 bootstrap();

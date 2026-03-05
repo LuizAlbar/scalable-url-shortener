@@ -153,28 +153,28 @@ docker-compose down -v
 ### Autenticação
 
 ```http
-POST /api/v1/auth/register
-POST /api/v1/auth/login
-GET  /api/v1/auth/google
-GET  /api/v1/auth/google/callback
-POST /api/v1/auth/forgot-password
-POST /api/v1/auth/reset-password
+POST /auth/register
+POST /auth/login
+GET  /auth/google
+GET  /auth/google/callback
+POST /auth/forgot-password
+POST /auth/reset-password
 ```
 
 ### URL Shortener
 
 ```http
-POST /api/v1/shorten-url        # Criar URL curta (requer autenticação)
-GET  /api/v1/shorten-url/:id    # Redirecionar para URL original
+POST /shorten-url        # Criar URL curta (requer autenticação)
+GET  /shorten-url/:id    # Redirecionar para URL original
 ```
 
 ### Billing
 
 ```http
-POST /api/v1/billing/checkout   # Criar sessão de checkout (requer autenticação)
-POST /api/v1/billing/webhook    # Webhook do Stripe
-GET  /api/v1/billing/success    # Página de sucesso
-GET  /api/v1/billing/cancel     # Página de cancelamento
+POST /billing/checkout   # Criar sessão de checkout (requer autenticação)
+POST /billing/webhook    # Webhook do Stripe
+GET  /billing/success    # Página de sucesso
+GET  /billing/cancel     # Página de cancelamento
 ```
 
 ### Documentação

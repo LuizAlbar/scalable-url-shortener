@@ -12,12 +12,12 @@ import { JwtAuthGuard } from "src/modules/auth/guards/jwt-auth.guard";
 import { CreateUrlDTO } from "../dtos/create-url.dto";
 import { UrlShortenerService } from "../services/url-shortener.service";
 
-@Controller("shorten-url")
+@Controller()
 export class UrlController {
 	constructor(private readonly urlService: UrlShortenerService) {}
 
 	@UseGuards(JwtAuthGuard)
-	@Post()
+	@Post("shorten-url")
 	@HttpCode(201)
 	async shortenUrl(@Body() createUrlDto: CreateUrlDTO) {
 		return this.urlService.shortenUrl(createUrlDto.longUrl);

@@ -78,7 +78,9 @@ export class AuthController {
 		});
 		return res
 			.status(302)
-			.redirect("https://d1266527.scalable-url-shortener.pages.dev/");
+			.redirect(
+				`http://localhost:5173/auth/google/callback?token=${result?.access_token}`,
+			);
 	}
 
 	@Post("forgot-password")

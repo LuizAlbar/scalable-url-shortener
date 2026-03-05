@@ -44,9 +44,13 @@ button {
 }
 
 body {
-	font-family: "Poppins", sans-serif;
+	font-family: "Geist", sans-serif;
+	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+	letter-spacing: -0.01em;
 	line-height: 1.6;
 	background-color: #f0f1f6;
+	color: #171717;
 }
 
 /* Utilities */
@@ -476,6 +480,10 @@ input.error-input::placeholder {
 
 	.buttons a {
 		margin-left: 1.5rem;
+	}
+
+	.buttons button:first-child {
+		margin-right: 1.5rem;
 	}
 
 	.buttons .btn:hover {

@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Logo from "../assets/logo.svg";
+import AuthModal from "./AuthModal";
 
 const Header = () => {
 	const [click, setClick] = useState(false);
+	const [loginOpen, setLoginOpen] = useState(false);
+	const [signupOpen, setSignupOpen] = useState(false);
 
 	const toggleNavClick = () => {
 		setClick(!click);
@@ -40,12 +43,12 @@ const Header = () => {
 					</nav>
 
 					<div className="buttons | hide">
-						<a className="nav__link" href="//#region ">
+						<button className="nav__link" onClick={() => setLoginOpen(true)}>
 							Login
-						</a>
-						<a className="nav__link | btn" datatype="narrow" href="#region">
+						</button>
+						<button className="nav__link | btn" datatype="narrow" onClick={() => setSignupOpen(true)}>
 							SignUp
-						</a>
+						</button>
 					</div>
 				</nav>
 
@@ -71,14 +74,14 @@ const Header = () => {
 
 					<ul className="nav__links | secondary">
 						<li>
-							<a href="#region" className="nav_link">
+							<button className="nav_link" onClick={() => setLoginOpen(true)}>
 								Login
-							</a>
+							</button>
 						</li>
 						<li>
-							<a href="#region" className="nav_link | btn" datatype="wide">
+							<button className="nav_link | btn" datatype="wide" onClick={() => setSignupOpen(true)}>
 								SignUp
-							</a>
+							</button>
 						</li>
 					</ul>
 				</nav>
@@ -96,6 +99,8 @@ const Header = () => {
 					)}
 				</div>
 			</div>
+			<AuthModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} mode="login" />
+			<AuthModal isOpen={signupOpen} onClose={() => setSignupOpen(false)} mode="signup" />
 		</header>
 	);
 };

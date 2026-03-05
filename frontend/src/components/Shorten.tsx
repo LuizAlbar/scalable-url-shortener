@@ -35,25 +35,42 @@ const Shorten = () => {
 
 	const onSubmit = async (data: ShortenFormData) => {
 		try {
+			const token = localStorage.getItem("token");
+			console.log("Token from localStorage:", token);
+			
+			const headers: Record<string, string> = { 
+				"Content-Type": "application/json",
+			};
+			
+			if (token) {
+				headers["Authorization"] = `Bearer ${token}`;
+			}
+			
+			console.log("Request headers:", headers);
+			
 			const response = await fetch(
-				`${API_URL}/api/v1/shorten-url`,
+				`${API_URL}/shorten-url`,
 				{
 					method: "POST",
-					headers: { 
-						"Content-Type": "application/json",
-						"Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
-					},
+					headers,
 					body: JSON.stringify({ longUrl: data.url }),
+					credentials: "include",
 				},
 			);
 
-			if (!response.ok) throw new Error("Failed to shorten");
+			console.log("Shorten response status:", response.status);
+			
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => ({}));
+				console.error("Shorten error:", errorData);
+				throw new Error("Failed to shorten");
+			}
 
 			const result = await response.json();
 
 			const updatedList = [
 				...shortenedUrls,
-				{ originalUrl: data.url, shortUrl: result.short_url },
+				{ originalUrl: data.url, shortUrl: `${API_URL}/${result.shortId}` },
 			];
 
 			setShortenedUrls(updatedList);
@@ -106,7 +123,7 @@ const Shorten = () => {
 						{shortenedUrls.map((item, index) => (
 							<div key={`${item.shortUrl}-${index}`} className="shorten__card">
 								<div className="actual-link">
-									<span className={item.originalUrl}></span>
+									<span className={item.originalUrl}>{item.originalUrl}</span>
 								</div>
 								<hr className="line" />
 								<div className="shorten__link">
