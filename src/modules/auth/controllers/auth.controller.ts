@@ -79,7 +79,7 @@ export class AuthController {
 		return res
 			.status(302)
 			.redirect(
-				`http://localhost:5173/auth/google/callback?token=${result?.access_token}`,
+				`http://localhost:5173/auth/google/callback?token=${result?.access_token}&name=${req?.user.firstName}`,
 			);
 	}
 

@@ -36,7 +36,6 @@ const Shorten = () => {
 	const onSubmit = async (data: ShortenFormData) => {
 		try {
 			const token = localStorage.getItem("token");
-			console.log("Token from localStorage:", token);
 			
 			const headers: Record<string, string> = { 
 				"Content-Type": "application/json",
@@ -46,7 +45,6 @@ const Shorten = () => {
 				headers["Authorization"] = `Bearer ${token}`;
 			}
 			
-			console.log("Request headers:", headers);
 			
 			const response = await fetch(
 				`${API_URL}/shorten-url`,
@@ -57,12 +55,9 @@ const Shorten = () => {
 					credentials: "include",
 				},
 			);
-
-			console.log("Shorten response status:", response.status);
 			
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => ({}));
-				console.error("Shorten error:", errorData);
 				throw new Error("Failed to shorten");
 			}
 

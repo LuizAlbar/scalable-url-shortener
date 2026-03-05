@@ -1,20 +1,16 @@
 import { useEffect } from "react";
+import "./GoogleCallback.css";
 
 const GoogleCallback = () => {
 	useEffect(() => {
-		console.log("Google callback - full URL:", window.location.href);
-		
-		// Try to get token from URL params
 		const params = new URLSearchParams(window.location.search);
 		let token = params.get("token") || params.get("access_token") || params.get("accessToken");
 		
-		// Try hash
+
 		if (!token && window.location.hash) {
 			const hashParams = new URLSearchParams(window.location.hash.substring(1));
 			token = hashParams.get("token") || hashParams.get("access_token") || hashParams.get("accessToken");
 		}
-		
-		// Try to get from cookies
 		if (!token) {
 			const cookies = document.cookie.split(';');
 			for (const cookie of cookies) {
@@ -26,22 +22,29 @@ const GoogleCallback = () => {
 			}
 		}
 		
-		console.log("Google callback - token:", token);
 		
 		if (token) {
 			localStorage.setItem("token", token);
-			console.log("Token saved from Google:", token);
 		}
 		
-		// Always redirect to home
+	
+		const userName = params.get("name") || params.get("firstName");
+		if (userName) {
+			localStorage.setItem("userName", userName);
+		}
+		
 		setTimeout(() => {
 			window.location.href = "/";
 		}, 500);
 	}, []);
 
 	return (
-		<div style={{ textAlign: "center", marginTop: "50px" }}>
-			<h2>Authenticating...</h2>
+		<div className="loading-screen">
+			<div className="loading-content">
+				<div className="loading-spinner"></div>
+				<h2>Authenticating</h2>
+				<p>Please wait while we complete your sign in...</p>
+			</div>
 		</div>
 	);
 };

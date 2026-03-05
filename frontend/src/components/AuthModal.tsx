@@ -44,18 +44,19 @@ const AuthModal = ({ isOpen, onClose, mode }: AuthModalProps) => {
 			if (!response.ok) throw new Error("Authentication failed");
 
 			const result = await response.json();
-			console.log("Auth response:", result);
 			
 			const token = result.access_token || result.accessToken || result.token;
 			if (token) {
 				localStorage.setItem("token", token);
-				console.log("Token saved:", token);
+				if (result.user?.firstName) {
+					localStorage.setItem("userName", result.user.firstName);
+				}
+				
 			}
 			
 			onClose();
 			window.location.reload();
 		} catch (err) {
-			console.error("Auth error:", err);
 			setError("Authentication failed. Try again.");
 		}
 	};

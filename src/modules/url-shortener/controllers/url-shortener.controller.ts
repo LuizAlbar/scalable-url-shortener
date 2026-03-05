@@ -23,7 +23,6 @@ export class UrlController {
 		return this.urlService.shortenUrl(createUrlDto.longUrl);
 	}
 
-	@UseGuards(JwtAuthGuard)
 	@Get(":shortId")
 	@Redirect()
 	async getLongUrl(@Param("shortId") shortId: string) {
