@@ -16,7 +16,7 @@ export class UrlShortenerService {
 
 		try {
 			await newUrl.saveAsync();
-			return shortId;
+			return { longUrl: long_url, shortId: newUrl.short_id };
 		} catch (error) {
 			console.error("Couldn't save model:", error);
 			throw error;

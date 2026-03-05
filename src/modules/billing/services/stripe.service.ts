@@ -19,8 +19,8 @@ export class StripeService {
 			line_items: [{ price: "price_1T6F3p3hWXhpqAN0c5Wxy9Cz", quantity: 1 }],
 			customer_email: userEmail,
 			client_reference_id: accountId,
-			success_url: `http://localhost:3000/api/v1/billing/success`,
-			cancel_url: `http://localhost:3000/api/v1/billing/cancel`,
+			success_url: `http://localhost:3000/billing/success`,
+			cancel_url: `http://localhost:3000/billing/cancel`,
 		});
 	}
 

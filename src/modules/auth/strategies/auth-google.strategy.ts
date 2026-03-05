@@ -9,11 +9,16 @@ export class AuthGoogleStrategy extends PassportStrategy(Strategy, "google") {
 		super({
 			clientID: env.GOOGLE_CLIENT_ID,
 			clientSecret: env.GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://localhost:3000/api/v1/auth/google/callback",
+			callbackURL: "http://localhost:3000/auth/google/callback",
 			scope: ["email", "profile"],
 		});
 	}
 
+	authorizationParams(): { [key: string]: string } {
+        return {
+            prompt: 'select_account',
+        };
+    }
 	async validate(
 		accessToken: string,
 		refreshToken: string,

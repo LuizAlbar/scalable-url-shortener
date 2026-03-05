@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { generateIdHelper } from "src/common/generate-id";
 import { hashPasswordService } from "src/common/hash-password-service";
 import { MailService } from "src/common/mail-service";
 import { models } from "src/config/database/cassandra/cassandra.client";
@@ -97,7 +98,7 @@ export class AuthService {
 			account.reset_token_expires = null;
 		}
 
-		const token = uuidv7();
+		const token = generateIdHelper.generateId().toUpperCase();
 		const expires = new Date();
 		expires.setHours(expires.getMinutes() + 15);
 
